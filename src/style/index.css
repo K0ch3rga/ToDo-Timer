@@ -1,0 +1,37 @@
+.login {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login .vk {
+  background-color: #07f;
+  height: auto;
+  border-radius: 10px;
+  border: none;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  color: #fff;
+  font-weight: 700;
+}
+.login .vk .edge {
+  width: 48px;
+  aspect-ratio: 1;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+}
+
+:root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #333;
+}/*# sourceMappingURL=index.css.map */
