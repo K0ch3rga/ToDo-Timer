@@ -1,56 +1,21 @@
-import { useEffect, useState } from 'react';
-import './style/App.css';
+import {createContext, useState} from "react";
+import ToDo from "./ToDo";
+import LoginScreen from "./Components/LogInScreen";
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
+export const Auth = createContext(false);
+export const BackendServer = createContext("");
 
-function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
+const App = () => {
+  const [token, setToken] = useState(false);
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tabelLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
-    return (
-        <div>
-            <h1 id="tabelLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
-    );
-
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
-}
+  return (
+    <BackendServer.Provider value={"http://localhost:5128"}>
+      <Auth.Provider value={token}>
+        {token ? <ToDo /> : <LoginScreen loginFunc={setToken} />}
+      </Auth.Provider>
+    </BackendServer.Provider>
+  );
+};
 
 export default App;
