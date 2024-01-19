@@ -1,27 +1,162 @@
+.main {
+  height: 100vh;
+  display: flex;
+}
+.main .calendar {
+  flex-grow: 5;
+  display: flex;
+  flex-direction: column;
+}
+.main .calendar .header {
+  margin: 0 0 0 10px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background: #7385fb;
+  border-radius: 0 0 3px 10px;
+}
+.main .calendar .mainContent {
+  align-self: stretch;
+  height: 100%;
+  position: relative;
+}
+.main .calendar .mainContent .background {
+  color: #EDEEF3;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
+  position: absolute;
+  z-index: -1;
+}
+.main .calendar .mainContent .background .line {
+  padding: 0 10px;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  align-items: center;
+}
+.main .calendar .mainContent .background .line .splitter {
+  flex: 1;
+  height: 1px;
+  background: #EDEEF3;
+  border-radius: 2px;
+}
+.main .calendar .mainContent .todoList {
+  position: absolute;
+  margin: 0 5px 0 30px;
+  height: 100%;
+  width: calc(100% - 35px);
+  padding: 24px 0 20px 0;
+}
+.main .calendar .mainContent .todoList .todoItem {
+  background: #FBD12EE8;
+  padding: 10px 10px 5px 10px;
+  border-radius: 10px;
+}
+.main .list {
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+}
+.main .list .drag {
+  width: 5px;
+  height: 100svh;
+  background: grey;
+}
+.main .list .drag:hover {
+  background: #374368;
+}
+.main .list .content {
+  width: calc(100% - 15px);
+  align-self: stretch;
+  padding: 0 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.main .list .content .add {
+  height: 40px;
+  background: #7385fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 10px 10px;
+}
+.main .list .content .todo {
+  margin: 10px 0;
+  padding: 20px 20px 5px 20px;
+  background: #FBD12E;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  color: #3D3E41;
+}
+.main .list .content .todo .line {
+  margin: 5px;
+  margin-bottom: 0;
+  height: 1px;
+  background: #3D3E41;
+}
+.main .list .content .todo .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.main .list .content .todo .buttons .button {
+  padding: 2px;
+}
+.main .list .content .todo .buttons .splitter {
+  background: #3D3E41;
+  width: 1px;
+  height: 20px;
+}
+
 .login {
   height: 100vh;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 5px 10px;
+}
+.login button {
+  height: auto;
+  width: 200px;
+  border: none;
+  border-radius: 12px;
+  display: inline-flex;
+  justify-content: space-evenly;
   align-items: center;
 }
 .login .vk {
   background-color: #07f;
-  height: auto;
-  border-radius: 10px;
-  border: none;
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   gap: 5px;
-  padding: 5px 10px;
   color: #fff;
   font-weight: 700;
 }
 .login .vk .edge {
   width: 48px;
   aspect-ratio: 1;
+}
+.login .google {
+  background-color: white;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+}
+.login .github {
+  background-color: #161b22;
+  color: white;
 }
 
 body {
@@ -33,5 +168,5 @@ body {
 :root {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #333;
+  background-color: #3d3e41;
 }/*# sourceMappingURL=index.css.map */

@@ -1,28 +1,48 @@
 import "/src/style/index.sass";
 import vkLogo from "/src/assets/vk-48.svg"; // неофицальновое
 import googleLogo from "/src/assets/google-48.svg"; // неофицальновое
-import {MouseEventHandler, useContext, useEffect} from "react";
+import {MouseEventHandler, useContext, useEffect, useState} from "react";
 import {BackendServer} from "../App";
+import AuthGetRequests from "../requests/Auth";
+import LoginButton from "./LoginButton";
 
 // https://id.vk.com/about/business/go/docs/ru/vkid/archive/1.60/vk-id/guidelines/design-rules
 
 const LoginScreen = (props: LoginScreenProps) => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>();
+  const [data, setData] = useState<string[]>();
   const url = useContext(BackendServer);
-  let redirect: Response;
+
   useEffect(() => {
-    fetch(url + "/OAuth/Bot/get/oauth/requests")
-      .then((data) => (redirect = data))
-      .catch((e) => console.log(e));
-    console.log(redirect);
-  });
-  const HandleLogin: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
+    console.log("GetAuth");
+    AuthGetRequests(
+      url,
+      (loading) => console.log(loading),
+      (error) => console.log(error),
+      (data) => setData(data)
+    );
+    if (error) console.log("Error: ", error);
+  }, []);
+
+  const HandleLogin = (link: string) => {
+    // window.location.href = link;
+    window.location.assign(link);
     props.loginFunc(true);
   };
 
   return (
     <div className="login screen">
-      <button className="vk" onClick={HandleLogin}>
+      {data?.map((link) => (
+        <LoginButton
+          handleLogin={HandleLogin}
+          text="Войти через VK ID"
+          image={vkLogo}
+          link={link}
+          class={new URL(link).searchParams.get("state")!}
+        />
+      ))}
+      {/* <button className="vk" onClick={HandleLogin}>
         <img src={vkLogo} className="edge" />
         <span className="text">Войти через VK ID</span>
       </button>
@@ -32,8 +52,8 @@ const LoginScreen = (props: LoginScreenProps) => {
       </button>
       <button className="google" onClick={HandleLogin}>
         <img src={googleLogo} className="edge" />
-        <span>Войти с Google</span>
-      </button>
+        <span className="text">Войти с Google</span>
+      </button> */}
     </div>
   );
 };
