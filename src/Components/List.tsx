@@ -1,12 +1,13 @@
 import {useContext, useState} from "react";
 import Todo from "../dataTypes/Todo";
 import {TodoPatch, TodoPost} from "../requests/Todo";
-import {BackendServer} from "../App";
+import {Auth, BackendServer} from "../App";
 
 const List = (props: {startTodo: (todo: Todo) => void}) => {
   const [width, setWidth] = useState<number>(300);
   const [todos, setTodos] = useState<Todo[]>([]);
   const url = useContext(BackendServer);
+  const token = useContext(Auth);
   let screenWidth = window.innerWidth;
 
   const handleResize = (e: React.DragEvent<HTMLDivElement>) => {
@@ -19,6 +20,7 @@ const List = (props: {startTodo: (todo: Todo) => void}) => {
     let todo: Todo = {id: crypto.randomUUID(), title: "Новая задача"};
     TodoPost(
       url,
+      token,
       (loading) => console.log("Loading: ", loading),
       (error) => console.log("Error: ", error),
       todo
@@ -28,7 +30,6 @@ const List = (props: {startTodo: (todo: Todo) => void}) => {
 
   const handleStart = (todo: Todo) => {
     setTodos(todos.filter((t) => t != todo));
-    console.log(typeof startTodo)
   };
 
   return (
