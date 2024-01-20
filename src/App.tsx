@@ -2,13 +2,13 @@ import {createContext, useState} from "react";
 import ToDo from "./Components/ToDo";
 import LoginScreen from "./Components/LogInScreen";
 
-export const Auth = createContext(false);
+export const Auth = createContext("");
 export const BackendServer = createContext("");
 
-
 const App = () => {
-  console.log(!!new URLSearchParams(window.location.search).get('login'))
-  const [token, setToken] = useState(!!new URLSearchParams(window.location.search).get('login'));
+  console.log("Cookie: ", document.cookie.match(new RegExp("(^| )token=([^;]+)")));
+  const cookie = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
+  const [token, setToken] = useState(cookie ? cookie[2] : "");
 
   return (
     <BackendServer.Provider value={"http://localhost:5128"}>

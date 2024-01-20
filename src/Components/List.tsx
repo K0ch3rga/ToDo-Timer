@@ -3,7 +3,7 @@ import Todo from "../dataTypes/Todo";
 import {TodoPatch, TodoPost} from "../requests/Todo";
 import {BackendServer} from "../App";
 
-const List: React.FC = () => {
+const List = (props: {startTodo: (todo: Todo) => void}) => {
   const [width, setWidth] = useState<number>(300);
   const [todos, setTodos] = useState<Todo[]>([]);
   const url = useContext(BackendServer);
@@ -12,7 +12,7 @@ const List: React.FC = () => {
   const handleResize = (e: React.DragEvent<HTMLDivElement>) => {
     // console.log(e);
     // console.log(screenWidth - e.clientX);
-    setWidth(screenWidth - e.clientX)
+    setWidth(screenWidth - e.clientX);
   };
 
   const handleAdd = () => {
@@ -26,6 +26,11 @@ const List: React.FC = () => {
     setTodos([todo, ...todos]);
   };
 
+  const handleStart = (todo: Todo) => {
+    setTodos(todos.filter((t) => t != todo));
+    console.log(typeof startTodo)
+  };
+
   return (
     <div className="list" style={{minWidth: width}}>
       <div className="drag" draggable onDragEnd={handleResize}></div>
@@ -35,7 +40,7 @@ const List: React.FC = () => {
         </div>
         <div>
           {todos.map((t) => (
-            <Item {...t} />
+            <Item todo={t} startFunc={handleStart} />
           ))}
         </div>
       </div>
@@ -43,14 +48,18 @@ const List: React.FC = () => {
   );
 };
 
-const Item: React.FC<Todo> = (props) => {
+const Item = (props: {todo: Todo; startFunc: (todo: Todo) => void}) => {
   const [redo, setRedo] = useState<boolean>(false);
-  const [todo, setTodo] = useState<Todo>(props);
-  const id = props.id;
+  const [todo, setTodo] = useState<Todo>(props.todo);
+  const id = todo.id;
   const handleRedo = () => setRedo(true);
   const handleSave = () => {
     // TodoPatch()
     setRedo(false);
+  };
+  const handleStart = () => {
+    console.log("started:", props.todo);
+    props.startFunc(props.todo);
   };
   return (
     <div className="todo">
@@ -66,7 +75,9 @@ const Item: React.FC<Todo> = (props) => {
       )}
       <div className="line" />
       <div className="buttons">
-        <div className="begin button">Начать</div>
+        <div className="begin button" onClick={handleStart}>
+          Начать
+        </div>
         <div className="splitter" />
         {!redo && (
           <div className="redo button" onClick={handleRedo}>
